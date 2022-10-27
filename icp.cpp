@@ -1,5 +1,5 @@
-#include <points.h>
-#include <icp.h>
+#include "points.h"
+#include "icp.h"
 
 Point mass(Cloud measurement) {
     int l = measurement.size();
@@ -33,4 +33,5 @@ PointVectorField minDistVectors(Tree map, Cloud measurement) {
         distV.point.y = p.y;
         f.push_back(distV);
     }
+    return f;
 };

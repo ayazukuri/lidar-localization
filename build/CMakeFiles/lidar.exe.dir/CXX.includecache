@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ayasaku/work/fp/icp.cpp
+points.h
+/home/ayasaku/work/fp/points.h
+icp.h
+/home/ayasaku/work/fp/icp.h
+
+/home/ayasaku/work/fp/icp.h
+
+/home/ayasaku/work/fp/points.h
+list
+-
+

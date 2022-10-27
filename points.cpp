@@ -1,4 +1,4 @@
-#include <points.h>
+#include "points.h"
 #include <math.h>
 
 inline int sgn(float x) {

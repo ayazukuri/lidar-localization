@@ -5,10 +5,16 @@ struct Point {
     float y;
 };
 
+using Vector = Point;
+using Cloud = std::list<Point>;
+using VectorField = std::list<Vector>;
+
 struct PointVector {
     Point point;
     Vector vector;
 };
+
+using PointVectorField = std::list<PointVector>;
 
 struct BinNode {
     Point p;
@@ -16,11 +22,7 @@ struct BinNode {
     BinNode* right;
 };
 
-typedef Point Vector;
-typedef std::list<Point> Cloud;
-typedef std::list<Vector> VectorField;
-typedef std::list<PointVector> PointVectorField;
-typedef BinNode Tree;
+using Tree = BinNode;
 
 Point fromCartesian(float x, float y);
 Point fromPolar(float r, float a);
