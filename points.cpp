@@ -27,11 +27,22 @@ float amount(Vector v) {
     return sqrt(pow(v.x, 2) + pow(v.y, 2));
 }
 
+float squaredAmount(Vector v) {
+    return pow(v.x, 2) + pow(v.y, 2);
+}
+
 float distance(Point p1, Point p2) {
     Vector v;
     v.x = p1.x - p2.x;
     v.y = p1.y - p2.y;
     return amount(v);
+}
+
+float squaredDistance(Point p1, Point p2) {
+    Vector v;
+    v.x = p1.x - p2.x;
+    v.y = p1.y - p2.y;
+    return squaredAmount(v);
 }
 
 float product(Vector v, Vector u) {

@@ -1,3 +1,5 @@
+#include <limits>
+#include <tuple>
 #include "points.h"
 #include "icp.h"
 
@@ -16,18 +18,23 @@ Point mass(Cloud measurement) {
     return m;
 }
 
-Point closest(Tree root, Point p, bool x) {
+std::tuple<Point, float> closest(Tree root, Point p, bool x) {
+    // Which direction is the point we are looking for relative to root?
     bool takeLeft = x ? p.x < root.p.x : p.y < root.p.y;
     BinNode* n = takeLeft ? root.left : root.right;
-    if (n) {
-        Point m = closest(*n, p, !x);
-        return distance(p, m) < distance(p, root.p) ? m : root.p;
-    }
-    return root.p;
+    if (!n) return std::make_tuple(root.p, squareDistance(root.p, p));
+    std::tuple<Point, float> ntup = closest(*n, p, !x);
+    float tb = std::get<1>(ntup);
+    if (tb < squareDistance(p, root.p)) return ntup;
+    BinNode* m = takeLeft ? root.right : root.left;
+    std::tuple<Point, float> mtup = closest(*m, p, !x);
+    float sb = std::get<1>(mtup);
+    if (tb < sb) return ntup;
+    return mtup;
 }
 
 Point closest(Tree root, Point p) {
-    return closest(root, p, true);
+    return std::get<0>(closest(root, p, true));
 }
 
 PointVectorField minDistVectors(Tree map, Cloud measurement) {
