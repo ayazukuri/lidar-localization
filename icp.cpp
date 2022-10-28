@@ -16,19 +16,27 @@ Point mass(Cloud measurement) {
     return m;
 }
 
+Point closest(Tree root, Point p, bool x) {
+    bool takeLeft = x ? p.x < root.p.x : p.y < root.p.y;
+    BinNode* n = takeLeft ? root.left : root.right;
+    if (n) {
+        Point m = closest(*n, p, !x);
+        return distance(p, m) < distance(p, root.p) ? m : root.p;
+    }
+    return root.p;
+}
+
+Point closest(Tree root, Point p) {
+    return closest(root, p, true);
+}
+
 PointVectorField minDistVectors(Tree map, Cloud measurement) {
     PointVectorField f;
     for (Point p : measurement) {
-        int d = 0;
-        BinNode* n = &map;
-        while (n) {
-            bool takeLeft = d == 0 ? n->p.x > p.x : n->p.y > p.y;
-            n = takeLeft ? n->left : n->right;
-            d = (d + 1) % 2;
-        }
+        Point c = closest(map, p);
         PointVector distV;
-        distV.vector.x = n->p.x - p.x;
-        distV.vector.y = n->p.y - p.y;
+        distV.vector.x = c.x - p.x;
+        distV.vector.y = c.y - p.y;
         distV.point.x = p.x;
         distV.point.y = p.y;
         f.push_back(distV);

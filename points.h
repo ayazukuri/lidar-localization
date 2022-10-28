@@ -28,6 +28,7 @@ Point fromCartesian(float x, float y);
 Point fromPolar(float r, float a);
 
 float amount(Vector v);
+float distance(Point p1, Point p2);
 float product(Vector v, Vector u);
 
 float rotSimple(PointVector pv);

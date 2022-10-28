@@ -1,3 +1,4 @@
+Point closest(Tree map, Point p);
 Point mass(Cloud measurement);
 PointVectorField minDistVectors(Tree map, Cloud measurement);
 
