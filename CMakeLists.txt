@@ -3,4 +3,4 @@ project (LIDAR)
 
 include_directories (${CMAKE_SOURCE_DIR})
 
-add_executable (lidar.exe lidar.cpp icp.cpp points.cpp)
+add_executable (lidar.exe lidar.cpp points.cpp classification.cpp)

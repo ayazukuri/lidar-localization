@@ -1,37 +1,52 @@
 #include <list>
+#include <math.h>
 
-struct Point {
+struct Polar {
+    float r;
+    float a;
+};
+
+struct Cartesian {
     float x;
     float y;
+
+    Cartesian operator+(const Cartesian &a) {
+        return { x + a.x, y + a.y };
+    }
+
+    Cartesian operator-(const Cartesian &a) {
+        return { x - a.x, y - a.y };
+    }
+
+    float operator*(const Cartesian &a) {
+        return x * a.x + y * a.y;
+    }
+
+    // Cross product
+    float operator&(const Cartesian &a) {
+        return x * a.y - a.x * y;
+    }
+
+    // Rotation
+    Cartesian operator^(const float &a) {
+        return {
+            x * cos(a) - y * sin(a),
+            x * sin(a) + y * cos(a)
+        };
+    }
+
+    Cartesian operator*(const float &s) {
+        return { x * s, y * s };
+    }
+
+    Cartesian operator/(const float &s) {
+        return { x / s, y / s };
+    }
 };
 
-using Vector = Point;
-using Cloud = std::list<Point>;
-using VectorField = std::list<Vector>;
+using Vector = Cartesian;
+using Cloud = std::list<Cartesian>;
 
-struct PointVector {
-    Point point;
-    Vector vector;
-};
-
-using PointVectorField = std::list<PointVector>;
-
-struct BinNode {
-    Point p;
-    BinNode* left;
-    BinNode* right;
-};
-
-using Tree = BinNode;
-
-Point fromCartesian(float x, float y);
-Point fromPolar(float r, float a);
-
-float amount(Vector v);
-float squaredAmount(Vector v);
-float distance(Point p1, Point p2);
-float squareDistance(Point p1, Point p2);
-float product(Vector v, Vector u);
-
-float rotSimple(PointVector pv);
-float rotLever(PointVector pv);
+float amount(Cartesian p);
+float distance(Cartesian p1, Cartesian p2);
+Cartesian mass(Cloud c);

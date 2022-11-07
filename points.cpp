@@ -1,59 +1,19 @@
 #include "points.h"
-#include <math.h>
+#include "math.h"
 
-inline int sgn(float x) {
-    return x < 0 ? -1 : 1;
+float amount(Cartesian p) {
+    return sqrt(pow(p.x, 2) + pow(p.y, 2));
 }
 
-float sinacos(float x) {
-    return sqrt(1 - pow(x, 2));
+float distance(Cartesian p1, Cartesian p2) {
+    return amount(p2 - p1);
 }
 
-Point fromCartesian(float x, float y) {
-    Point p;
-    p.x = x;
-    p.y = y;
-    return p;
-}
-
-Point fromPolar(float r, float a) {
-    Point p;
-    p.x = cos(a) * r;
-    p.y = sin(a) * r;
-    return p;
-}
-
-float amount(Vector v) {
-    return sqrt(pow(v.x, 2) + pow(v.y, 2));
-}
-
-float squaredAmount(Vector v) {
-    return pow(v.x, 2) + pow(v.y, 2);
-}
-
-float distance(Point p1, Point p2) {
-    Vector v;
-    v.x = p1.x - p2.x;
-    v.y = p1.y - p2.y;
-    return amount(v);
-}
-
-float squaredDistance(Point p1, Point p2) {
-    Vector v;
-    v.x = p1.x - p2.x;
-    v.y = p1.y - p2.y;
-    return squaredAmount(v);
-}
-
-float product(Vector v, Vector u) {
-    return v.x * u.x + v.y * u.y;
-}
-
-float rotSimple(PointVector pv) {
-    return pv.point.x * pv.vector.y - pv.point.y * pv.vector.x;
-}
-
-float rotLever(PointVector pv) {
-    float pava = amount(pv.point) * amount(pv.vector);
-    return sgn(rotSimple(pv)) * sinacos(product(pv.point, pv.vector) / pava) * pava;
+Cartesian mass(Cloud c) {
+    Cartesian m;
+    for (Cartesian p : c) {
+        m = m + p;
+    }
+    m = m / c.size();
+    return m;
 }
