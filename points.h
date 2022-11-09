@@ -1,6 +1,12 @@
 #include <list>
 #include <math.h>
 
+template <typename T, typename Y>
+struct Tuple {
+    T fst;
+    Y snd;
+};
+
 struct Polar {
     float r;
     float a;
@@ -47,6 +53,10 @@ struct Cartesian {
 using Vector = Cartesian;
 using Cloud = std::list<Cartesian>;
 
+Cartesian fromPolar(Polar p);
+float squareAmount(Cartesian p);
 float amount(Cartesian p);
+float squareDistance(Cartesian p1, Cartesian p2);
 float distance(Cartesian p1, Cartesian p2);
 Cartesian mass(Cloud c);
+Cloud rotate(Cloud c, float a);

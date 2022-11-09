@@ -19,6 +19,6 @@ struct Shape {
     Cloud measure;
 };
 
-
 Shape toShape(Cloud c);
+std::list<Shape> shapes(std::list<Polar> measurement);
 float likeness(ClassConfig conf, Shape s1, Shape s2);
