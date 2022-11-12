@@ -36,14 +36,17 @@ std::list<Shape> shapes(std::list<Polar> measurement) {
     for (Tuple<Cloud, float> t : cs)
         res.push_back(
             toShape(
-                // Rotate cloud t.fst back by its offset angle t.snd.
-                rotate(t.fst, -t.snd)
+                t.fst,
+                t.snd
             )
         );
     return res;
 }
 
-Shape toShape(Cloud c) {
+Shape toShape(Cloud c, float angle) {
+    // Rotate cloud t.fst back by its offset angle t.snd.
+    c = rotate(c, -angle);
+
     Cartesian p0, pn;
     p0 = c.front();
     pn = c.back();
@@ -75,16 +78,17 @@ Shape toShape(Cloud c) {
         dMassMean,
         dMassMin,
         innerAngle,
-        c
+        c,
+        angle
     };
 }
 
 float likeness(ClassConfig conf, Shape s1, Shape s2) {
-    float score = conf.alpha * pow(s1.width - s2.width, 2)
-                + conf.beta  * pow(s1.height - s2.height, 2)
-                + conf.gamma * pow(s1.dMassMax - s2.dMassMax, 2)
-                + conf.delta * pow(s1.dMassMean - s2.dMassMean, 2)
+    float score = conf.alpha   * pow(s1.width - s2.width, 2)
+                + conf.beta    * pow(s1.height - s2.height, 2)
+                + conf.gamma   * pow(s1.dMassMax - s2.dMassMax, 2)
+                + conf.delta   * pow(s1.dMassMean - s2.dMassMean, 2)
                 + conf.epsilon * pow(s1.dMassMin - s2.dMassMin, 2)
-                + conf.zeta * pow(s1.innerAngle - s2.innerAngle, 2);
+                + conf.zeta    * pow(s1.innerAngle - s2.innerAngle, 2);
     return 1 / score;
 }

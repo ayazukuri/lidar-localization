@@ -17,8 +17,9 @@ struct Shape {
     float dMassMin;
     float innerAngle;
     Cloud measure;
+    float angle;
 };
 
-Shape toShape(Cloud c);
+Shape toShape(Cloud c, float angle);
 std::list<Shape> shapes(std::list<Polar> measurement);
 float likeness(ClassConfig conf, Shape s1, Shape s2);
