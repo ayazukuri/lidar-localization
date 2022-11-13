@@ -1,4 +1,4 @@
-#include "classification.h"
+#include "shape.h"
 #include <math.h>
 #include <stdio.h>
 
@@ -14,7 +14,7 @@ int main() {
     int k = 0;
     for (Shape a : s) {
         printf("Shape %i\n", k);
-        for (Cartesian c : a.measure) {
+        for (Cartesian c : a.c) {
             printf("%fx %fy\n", c.x, c.y);
         }
         k++;

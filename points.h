@@ -52,6 +52,7 @@ struct Cartesian {
 
 using Vector = Cartesian;
 using Cloud = std::list<Cartesian>;
+using PCloud = std::list<Polar>;
 
 Cartesian fromPolar(Polar p);
 float squareAmount(Cartesian p);
