@@ -1,6 +1,8 @@
 #include <list>
 #include <math.h>
 
+const float M_TAU = 2 * M_PI;
+
 template <typename T, typename Y>
 struct Tuple {
     T fst;
@@ -61,3 +63,5 @@ float squareDistance(Cartesian p1, Cartesian p2);
 float distance(Cartesian p1, Cartesian p2);
 Cartesian mass(Cloud c);
 Cloud rotate(Cloud c, float a);
+float normalize(float angle);
+float innerNormalize(float angle);

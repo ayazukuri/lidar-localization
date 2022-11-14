@@ -42,3 +42,7 @@ Cloud rotate(Cloud c, float a) {
     }
     return cr;
 }
+
+float normalize(float angle) {
+    return angle - floor(angle / M_TAU) * M_TAU;
+}

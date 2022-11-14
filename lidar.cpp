@@ -1,23 +1,35 @@
-#include "shape.h"
+#include "path.h"
 #include <math.h>
 #include <stdio.h>
 
 int main() {
-    Polar p0, p1, p2, p3;
-    p0 = { 20, 0 };
-    p1 = { 20, 0.01 };
-    p2 = { 20, M_PI - 0.03 };
-    p3 = { 20, M_PI };
-    std::list<Polar> c = { p0, p1, p2, p3 };
-    std::list<Shape> s = shapes(c);
-    printf("%i\n", s.size());
-    int k = 0;
-    for (Shape a : s) {
-        printf("Shape %i\n", k);
-        for (Cartesian c : a.c) {
-            printf("%fx %fy\n", c.x, c.y);
+    PCloud p = {
+        { 1, 0 },
+        { 1, 0.02 },
+        { 1, 0.04 },
+        { 1, 0.06 },
+        { 1, 0.08 },
+        { 1, 0.10 },
+        { 1, 0.12 },
+        { 1, M_TAU - 0.12 },
+        { 1, M_TAU - 0.10 },
+        { 1, M_TAU - 0.08 },
+        { 1, M_TAU - 0.06 },
+        { 1, M_TAU - 0.04 },
+        { 1, M_TAU - 0.02 }
+    };
+    float angle = 0;
+    std::list<Shape> shapers = shapes(p);
+    printf("%iamount\n", shapers.size());
+    for (Shape s : shapers) {
+        printf("NEW SHAPE\n");
+        for (Cartesian c : s.c) {
+            printf("%fx, %fy\n", c.x, c.y);
         }
-        k++;
+        printf("minAngle: %fpi\n", s.minAngle / M_PI);
+        printf("maxAngle: %fpi\n", s.maxAngle / M_PI);
     }
+    Correction c = correction(shapers, angle);
+    printf("Corrected: %fpi, Deviation: %fpi\n", c.angle / M_PI, c.deviation / M_PI);
     return 0;
 }

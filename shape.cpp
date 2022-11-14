@@ -2,52 +2,61 @@
 #include <math.h>
 #include <list>
 #include <limits>
+#include <stdio.h>
 
 const int SAMPLES_PER_MEASUREMENT = 600;
 const int DIST_TOLERANCE = 2;
-const float squareRadiusFactor = pow(sin((2*M_PI) / SAMPLES_PER_MEASUREMENT) * DIST_TOLERANCE, 2);
+const float SQUARE_R_FACTOR = pow(sin(M_TAU / SAMPLES_PER_MEASUREMENT) * DIST_TOLERANCE, 2);
+
+Tuple<Cloud, PCloud> carPolSep(RawShape rs) {
+    Cloud c;
+    PCloud p;
+    for (Tuple<Polar, Cartesian> pc : rs) {
+        p.push_back(pc.fst);
+        c.push_back(pc.snd);
+    }
+    return { c, p };
+}
 
 std::list<Shape> shapes(std::list<Polar> measurement) {
     Polar lastp = measurement.front();
     Cartesian lastc = fromPolar(lastp);
-    float a = lastp.a;
-    std::list<Tuple<Cloud, PCloud>> cs = { { {}, {} } };
+    std::list<RawShape> pcs = { {} };
     for (Polar p : measurement) {
         Cartesian c = fromPolar(p);
-        if (squareDistance(c, lastc) > pow(p.r, 2) * squareRadiusFactor) {
-            // Start of new shape detected.
-            cs.push_back({ {}, {} });
+        if (squareDistance(c, lastc) > pow(p.r, 2) * SQUARE_R_FACTOR) {
+            pcs.push_back({});
         }
-        cs.back().fst.push_back(c);
-        cs.back().snd.push_back(p);
+        pcs.back().push_back({ p, c });
         lastp = p;
         lastc = c;
     }
-    Tuple<Cloud, PCloud> firstC = cs.front();
-    Tuple<Cloud, PCloud> lastC = cs.back();
+
+    Cartesian firstP = pcs.front().front().snd;
+    Cartesian lastP = pcs.back().back().snd;
+
     // If first and last point are close enough, consider them part of the same shape (merge first and last shape).
-    if (squareDistance(firstC.fst.front(), lastC.fst.back()) < pow(lastp.r, 2) * squareRadiusFactor) {
-        // Add all elements of last shape in front of the first shape.
-        firstC.fst.splice(firstC.fst.begin(), lastC.fst);
-        firstC.snd.splice(firstC.snd.begin(), lastC.snd);
+    if (squareDistance(firstP, lastP) < pow(lastp.r, 2) * SQUARE_R_FACTOR) {
+        pcs.front().splice(pcs.front().begin(), pcs.back());
         // Remove last virtual shape.
-        cs.pop_back();
+        pcs.pop_back();
     }
+
     std::list<Shape> res;
     int k = 0;
-    for (Tuple<Cloud, PCloud> c : cs) {
-        Cartesian m = mass(c.fst);
-        float r = amount(m);
+    for (RawShape rawShape : pcs) {
+        Tuple<Cloud, PCloud> sep = carPolSep(rawShape);
+        Cartesian m = mass(sep.fst);
+        float minAngle, maxAngle;
         res.push_back({
             k,
-            c.snd.front().a,
-            c.snd.back().a,
-            acos(m.x / r),
-            amount(c.fst.front()),
-            amount(c.fst.back()),
-            r,
+            sep.snd.front().a,
+            sep.snd.back().a,
+            amount(sep.fst.front()),
+            amount(sep.fst.back()),
+            amount(m),
             m,
-            c.fst
+            sep.fst
         });
     }
     return res;
