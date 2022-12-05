@@ -25,13 +25,18 @@ int main() {
     printf("%iamount\n", shapers.size());
     for (Shape s : shapers) {
         printf("NEW SHAPE\n");
-        for (Cartesian c : s.c) {
-            printf("%fx, %fy\n", c.x, c.y);
-        }
         printf("minAngle: %fpi\n", s.minAngle / M_PI);
         printf("maxAngle: %fpi\n", s.maxAngle / M_PI);
     }
     float c = leastIntrusiveRedirect(shapers, angle);
     printf("Corrected Angle: %fpi\n", c / M_PI);
+    std::list<Shape> newShapers = broadScape(shapers, 0.1);
+    for (Shape s : newShapers) {
+        printf("NEW SHAPE BROAD\n");
+        printf("minAngle: %fpi\n", s.minAngle / M_PI);
+        printf("maxAngle: %fpi\n", s.maxAngle / M_PI);
+    }
+    float c2 = leastIntrusiveRedirect(newShapers, angle);
+    printf("Corrected Angle + Broaden: %fpi\n", c2 / M_PI);
     return 0;
 }
