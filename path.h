@@ -1,8 +1,4 @@
 #include "shape.h"
 
-struct Correction {
-    float angle;
-    float deviation;
-};
-
-Correction correction(std::list<Shape> obstructions, float intentAngle);
+float leastIntrusiveRedirect(std::list<Shape> scape, float intentAngle);
+float adjustedRedirect(std::list<Shape> scape, float intentAngle);

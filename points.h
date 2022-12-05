@@ -64,4 +64,3 @@ float distance(Cartesian p1, Cartesian p2);
 Cartesian mass(Cloud c);
 Cloud rotate(Cloud c, float a);
 float normalize(float angle);
-float innerNormalize(float angle);

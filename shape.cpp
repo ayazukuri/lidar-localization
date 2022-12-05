@@ -47,7 +47,6 @@ std::list<Shape> shapes(std::list<Polar> measurement) {
     for (RawShape rawShape : pcs) {
         Tuple<Cloud, PCloud> sep = carPolSep(rawShape);
         Cartesian m = mass(sep.fst);
-        float minAngle, maxAngle;
         res.push_back({
             k,
             sep.snd.front().a,

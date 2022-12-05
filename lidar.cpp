@@ -11,6 +11,8 @@ int main() {
         { 1, 0.08 },
         { 1, 0.10 },
         { 1, 0.12 },
+        { 1, 0.14 },
+        { 1, 0.16 },
         { 1, M_TAU - 0.12 },
         { 1, M_TAU - 0.10 },
         { 1, M_TAU - 0.08 },
@@ -29,7 +31,7 @@ int main() {
         printf("minAngle: %fpi\n", s.minAngle / M_PI);
         printf("maxAngle: %fpi\n", s.maxAngle / M_PI);
     }
-    Correction c = correction(shapers, angle);
-    printf("Corrected: %fpi, Deviation: %fpi\n", c.angle / M_PI, c.deviation / M_PI);
+    float c = leastIntrusiveRedirect(shapers, angle);
+    printf("Corrected Angle: %fpi\n", c / M_PI);
     return 0;
 }
