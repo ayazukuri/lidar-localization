@@ -4,9 +4,10 @@
 #include <limits>
 #include <stdio.h>
 
+const float HC_TOLERANCE_FACTOR = 2;
+
 const int SAMPLES_PER_MEASUREMENT = 600;
-const int DIST_TOLERANCE = 2;
-const float SQUARE_R_FACTOR = pow(sin(M_TAU / SAMPLES_PER_MEASUREMENT) * DIST_TOLERANCE, 2);
+const float SQUARE_R_FACTOR = pow(sin(M_TAU / SAMPLES_PER_MEASUREMENT) * HC_TOLERANCE_FACTOR, 2);
 
 Tuple<Cloud, PCloud> carPolSep(RawShape rs) {
     Cloud c;

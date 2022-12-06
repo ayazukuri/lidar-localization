@@ -30,7 +30,7 @@ int main() {
     }
     float c = leastIntrusiveRedirect(shapers, angle);
     printf("Corrected Angle: %fpi\n", c / M_PI);
-    std::list<Shape> newShapers = broadScape(shapers, 0.1);
+    std::list<Shape> newShapers = shapes(p);
     for (Shape s : newShapers) {
         printf("NEW SHAPE BROAD\n");
         printf("minAngle: %fpi\n", s.minAngle / M_PI);
