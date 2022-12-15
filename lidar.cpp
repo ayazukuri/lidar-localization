@@ -1,4 +1,4 @@
-#include "path.h"
+#include "manip.h"
 #include <math.h>
 #include <stdio.h>
 
@@ -21,22 +21,16 @@ int main() {
         { 1, M_TAU - 0.02 }
     };
     float angle = 0;
-    std::list<Shape> shapers = shapes(p);
+    Pose shapers = pose(p);
     printf("%iamount\n", shapers.size());
     for (Shape s : shapers) {
         printf("NEW SHAPE\n");
         printf("minAngle: %fpi\n", s.minAngle / M_PI);
         printf("maxAngle: %fpi\n", s.maxAngle / M_PI);
     }
-    float c = leastIntrusiveRedirect(shapers, angle);
+    float c = redirect(shapers, angle);
     printf("Corrected Angle: %fpi\n", c / M_PI);
-    std::list<Shape> newShapers = shapes(p);
-    for (Shape s : newShapers) {
-        printf("NEW SHAPE BROAD\n");
-        printf("minAngle: %fpi\n", s.minAngle / M_PI);
-        printf("maxAngle: %fpi\n", s.maxAngle / M_PI);
-    }
-    float c2 = leastIntrusiveRedirect(newShapers, angle);
-    printf("Corrected Angle + Broaden: %fpi\n", c2 / M_PI);
+    // TODO: broaden angle
+    printf("Corrected Angle + Broaden: %fpi\n", c / M_PI);
     return 0;
 }

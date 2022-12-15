@@ -57,8 +57,8 @@ using Cloud = std::list<Cartesian>;
 using PCloud = std::list<Polar>;
 
 Cartesian fromPolar(Polar p);
-float squareAmount(Cartesian p);
-float amount(Cartesian p);
+float squareAmount(Vector p);
+float amount(Vector p);
 float squareDistance(Cartesian p1, Cartesian p2);
 float distance(Cartesian p1, Cartesian p2);
 Cartesian mass(Cloud c);

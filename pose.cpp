@@ -1,4 +1,4 @@
-#include "shape.h"
+#include "pose.h"
 #include <math.h>
 #include <list>
 #include <limits>
@@ -9,6 +9,12 @@ const float HC_TOLERANCE_FACTOR = 2;
 const int SAMPLES_PER_MEASUREMENT = 600;
 const float SQUARE_R_FACTOR = pow(sin(M_TAU / SAMPLES_PER_MEASUREMENT) * HC_TOLERANCE_FACTOR, 2);
 
+/**
+ * Separate intermediate shapes for processing.
+ * 
+ * @param rs Raw shape used in pose calculation.
+ * @return Cloud contained in shape in polar and cartesian systems.
+ */
 Tuple<Cloud, PCloud> carPolSep(RawShape rs) {
     Cloud c;
     PCloud p;
@@ -19,7 +25,13 @@ Tuple<Cloud, PCloud> carPolSep(RawShape rs) {
     return { c, p };
 }
 
-std::list<Shape> shapes(std::list<Polar> measurement) {
+/**
+ * Calculate pose from LiDAR measurement.
+ * 
+ * @param measurement LiDAR measurement.
+ * @return Calculated pose.
+ */
+Pose pose(PCloud measurement) {
     Polar lastp = measurement.front();
     Cartesian lastc = fromPolar(lastp);
     std::list<RawShape> pcs = { {} };
@@ -43,7 +55,7 @@ std::list<Shape> shapes(std::list<Polar> measurement) {
         pcs.pop_back();
     }
 
-    std::list<Shape> res;
+    Pose res;
     int k = 0;
     for (RawShape rawShape : pcs) {
         Tuple<Cloud, PCloud> sep = carPolSep(rawShape);

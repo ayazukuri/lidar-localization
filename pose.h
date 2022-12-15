@@ -11,6 +11,7 @@ struct Shape {
     Cloud c;
 };
 
-std::list<Shape> shapes(std::list<Polar> measurement);
+using Pose = std::list<Shape>;
+Pose pose(PCloud measurement);
 using RawShape = std::list<Tuple<Polar, Cartesian>>;
 Tuple<Cloud, PCloud> carPolSep(RawShape rs);
